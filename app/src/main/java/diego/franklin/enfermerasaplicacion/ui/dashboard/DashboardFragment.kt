@@ -28,7 +28,7 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textView2
+        val textView: TextView = binding.tvMensaje
         dashboardViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
