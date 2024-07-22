@@ -1,14 +1,14 @@
 package modelo
 
-class dataClassPacientes {
-    /*val uuid: String,
-    val Nombres: String,
+data class dataClassPacientes(
+    val UUID_Paciente: String,
+    var Nombres: String,
     val Apellidos: String,
-    val Edad: Int,
+    val Edad: String,
     val Enfermedad: String,
-    val Num_Habitacion: Int,
-    val Num_Cama: Int,
+    val Num_Habitacion: String,
+    val Num_Cama: String,
     val Medicina_Asignada: String,
     val Fecha_Ingreso: String,
-    val Hora_Aplicacion_Med: String*/
-}
+    val Hora_Aplicacion_Med: String
+)
