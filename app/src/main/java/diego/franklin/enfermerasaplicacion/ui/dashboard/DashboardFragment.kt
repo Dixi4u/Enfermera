@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -51,8 +52,7 @@ class DashboardFragment : Fragment() {
         val txtMedicamentosAsignados = root.findViewById<EditText>(R.id.txtMedicamentosAsignados)
         val txtFechaIngreso = root.findViewById<EditText>(R.id.txtFechaIngreso)
         val txtHoraApliocacionMedicamentos = root.findViewById<EditText>(R.id.txtHoraApliocacionMedicamentos)
-        val btnAgregarPaciente = root.findViewById<EditText>(R.id.btnAgregarPaciente)
-        val rcvPacientes = root.findViewById<RecyclerView>(R.id.rcvPacientes)
+        val btnAgregarPaciente = root.findViewById<Button>(R.id.btnAgregarPaciente)
 
         fun obtenerDatos(): List<dataClassPacientes> {
             val objConexion = ClaseConexion().cadenaConexion()
@@ -95,11 +95,6 @@ class DashboardFragment : Fragment() {
                 agregarPaciente?.setString(7, txtMedicamentosAsignados.text.toString())
                 agregarPaciente?.setString(8, txtFechaIngreso.text.toString())
                 agregarPaciente?.setString(9, txtHoraApliocacionMedicamentos.text.toString())
-
-                val nuevoPaciente = obtenerDatos()
-                withContext(Dispatchers.Main) {
-                    (rcvPacientes.adapter as? Adaptador)?.actualizarLista(nuevoPaciente)
-                }
             }
         }
 
