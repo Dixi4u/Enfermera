@@ -8,7 +8,7 @@ import diego.franklin.enfermerasaplicacion.R
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    val txtTicketsCard: TextView = view.findViewById(R.id.txtTicketsCard)
-    val imgEditar: ImageView = view.findViewById(R.id.imgEditar)
-    val imgBorrar: ImageView = view.findViewById(R.id.imgEliminar)
+    val activity_item_card: TextView = view.findViewById(R.id.txthombreCard)
+//    val imgEditar: ImageView = view.findViewById(R.id.imgEditar)
+//    val imgBorrar: ImageView = view.findViewById(R.id.imgEliminar)
 }

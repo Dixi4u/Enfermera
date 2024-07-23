@@ -13,6 +13,9 @@
         android:theme="@style/Theme.EnfermerasAplicacion"
         tools:targetApi="31">
         <activity
+            android:name=".Item_Card"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
