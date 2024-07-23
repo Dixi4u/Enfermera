@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import modelo.ClaseConexion
 import modelo.dataClassPacientes
+import java.util.UUID
 
 class DashboardFragment : Fragment() {
 
@@ -83,22 +84,30 @@ class DashboardFragment : Fragment() {
 
         btnAgregarPaciente.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                val objConexion = ClaseConexion().cadenaConexion()
-
-                val agregarPaciente = objConexion?.prepareStatement("insert into (UUID_Pacientes, Nombres, Apellidos, Edad, Enfermedad, Num_Habitacion, Num_Cama, Medicina_Asignada, Fecha_Ingreso, Hora_Aplicacion_Med) values (?,?,?,?,?,?,?,?,?,?)")
-                agregarPaciente?.setString(1, txtNombres.text.toString())
-                agregarPaciente?.setString(2, txtApellidos.text.toString())
-                agregarPaciente?.setString(3, txtEdad.text.toString())
-                agregarPaciente?.setString(4, txtEnfermedad.text.toString())
-                agregarPaciente?.setString(5, txtNum_Habitacion.text.toString())
-                agregarPaciente?.setString(6, txtNum_Cama.text.toString())
-                agregarPaciente?.setString(7, txtMedicamentosAsignados.text.toString())
-                agregarPaciente?.setString(8, txtFechaIngreso.text.toString())
-                agregarPaciente?.setString(9, txtHoraApliocacionMedicamentos.text.toString())
+                try {
+                    val objConexion = ClaseConexion().cadenaConexion()
+                    val agregarPaciente = objConexion?.prepareStatement(
+                        "INSERT INTO Pacientes (UUID_Pacientes, Nombres, Apellidos, Edad, Enfermedad, Num_Habitacion, Num_Cama, Medicina_Asignada, Fecha_Ingreso, Hora_Aplicacion_Med) VALUES (?,?,?,?,?,?,?,?,?,?)"
+                    )
+                    agregarPaciente?.setString(1, UUID.randomUUID().toString())
+                    agregarPaciente?.setString(2, txtNombres.text.toString())
+                    agregarPaciente?.setString(3, txtApellidos.text.toString())
+                    agregarPaciente?.setString(4, txtEdad.text.toString())
+                    agregarPaciente?.setString(5, txtEnfermedad.text.toString())
+                    agregarPaciente?.setString(6, txtNum_Habitacion.text.toString())
+                    agregarPaciente?.setString(7, txtNum_Cama.text.toString())
+                    agregarPaciente?.setString(8, txtMedicamentosAsignados.text.toString())
+                    agregarPaciente?.setString(9, txtFechaIngreso.text.toString())
+                    agregarPaciente?.setString(10, txtHoraApliocacionMedicamentos.text.toString())
+                    agregarPaciente?.executeUpdate()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    withContext(Dispatchers.Main) {
+                        // Muestra un mensaje de error al usuario
+                    }
+                }
             }
         }
-
-
         return root
     }
 

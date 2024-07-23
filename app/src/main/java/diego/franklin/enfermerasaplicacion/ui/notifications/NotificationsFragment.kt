@@ -45,39 +45,44 @@ class NotificationsFragment : Fragment() {
 
         fun obtenerPacientes(): List<dataClassPacientes>{
 
-            val objConexion = ClaseConexion().cadenaConexion()
-            val statement = objConexion?.createStatement()
-
-            val resultset = statement?.executeQuery("SELECT * FROM Pacientes")!!
-
             val listaPacientes = mutableListOf<dataClassPacientes>()
+            try {
 
-            while (resultset.next()) {
-                val UUID_Pacientes = resultset.getString("UUID_Pacientes")
-                val Nombres = resultset.getString("Nombres")
-                val Apellidos = resultset.getString("Apellidos")
-                val Edad = resultset.getInt("Edad")
-                val Enfermedad = resultset.getString("Enfermedad")
-                val Num_Habitacion = resultset.getString("Num_Habitacion")
-                val Num_Cama = resultset.getString("Num_Cama")
-                val Medicina_Asignada = resultset.getString("Medicina_Asignada")
-                val Fecha_Ingreso = resultset.getString("Fecha_Ingreso")
-                val Hora_Aplicacion_Med = resultset.getString("Hora_Aplicacion_Med")
+                val objConexion = ClaseConexion().cadenaConexion()
+                val statement = objConexion?.createStatement()
 
-                val valoresJuntos = dataClassPacientes(
-                    UUID_Pacientes,
-                    Nombres,
-                    Apellidos,
-                    Edad.toString(),
-                    Enfermedad,
-                    Num_Habitacion,
-                    Num_Cama,
-                    Medicina_Asignada,
-                    Fecha_Ingreso,
-                    Hora_Aplicacion_Med
-                )
+                val resultset = statement?.executeQuery("SELECT * FROM Pacientes")!!
 
-                listaPacientes.add(valoresJuntos)
+                while (resultset.next()) {
+                    val UUID_Pacientes = resultset.getString("UUID_Pacientes")
+                    val Nombres = resultset.getString("Nombres")
+                    val Apellidos = resultset.getString("Apellidos")
+                    val Edad = resultset.getInt("Edad")
+                    val Enfermedad = resultset.getString("Enfermedad")
+                    val Num_Habitacion = resultset.getString("Num_Habitacion")
+                    val Num_Cama = resultset.getString("Num_Cama")
+                    val Medicina_Asignada = resultset.getString("Medicina_Asignada")
+                    val Fecha_Ingreso = resultset.getString("Fecha_Ingreso")
+                    val Hora_Aplicacion_Med = resultset.getString("Hora_Aplicacion_Med")
+
+                    val valoresJuntos = dataClassPacientes(
+                        UUID_Pacientes,
+                        Nombres,
+                        Apellidos,
+                        Edad.toString(),
+                        Enfermedad,
+                        Num_Habitacion,
+                        Num_Cama,
+                        Medicina_Asignada,
+                        Fecha_Ingreso,
+                        Hora_Aplicacion_Med
+                    )
+
+                    listaPacientes.add(valoresJuntos)
+                }
+            }catch (e: Exception){
+
+                e.printStackTrace()
             }
             return listaPacientes
 
