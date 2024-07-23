@@ -88,7 +88,7 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val item = Datos[position]
-        holder.activity_item_card.text = item.Nombres}}
+        holder.txthombreCard.text = item.Nombres}}
 //        //todo: clic al icono de eliminar
 //        holder.imgBorrar.setOnClickListener {
 //
