@@ -22,7 +22,7 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
         notifyDataSetChanged()
     }
 
-    fun actualicePantalla(uuid: String, nuevoNombre: String){
+    fun actualicePantalla(uuid: String, nuevoNombre: String) {
         val index = Datos.indexOfFirst { it.UUID_Paciente == uuid }
         Datos[index].Nombres = nuevoNombre
         notifyDataSetChanged()
@@ -30,17 +30,18 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
 
 
     /////////////////// TODO: Eliminar datos
-    fun eliminarDatos(titulo: String, posicion: Int){
+    fun eliminarDatos(titulo: String, posicion: Int) {
         //Actualizo la lista de datos y notifico al adaptador
         val listaDatos = Datos.toMutableList()
         listaDatos.removeAt(posicion)
 
-        GlobalScope.launch(Dispatchers.IO){
+        GlobalScope.launch(Dispatchers.IO) {
             //1- Creamos un objeto de la clase conexion
             val objConexion = ClaseConexion().cadenaConexion()
 
             //2- Crear una variable que contenga un PrepareStatement
-            val deleteMascota = objConexion?.prepareStatement("delete from Ticket where Titulo = ?")!!
+            val deleteMascota =
+                objConexion?.prepareStatement("delete from Ticket where Titulo = ?")!!
             deleteMascota.setString(1, titulo)
             deleteMascota.executeUpdate()
 
@@ -55,19 +56,20 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
 
 
     //////////////////////TODO: Editar datos
-    fun actualizarDato(nuevoTitulo: String, UUID_Ticket: String){
-        GlobalScope.launch(Dispatchers.IO){
+    fun actualizarDato(nuevoTitulo: String, UUID_Ticket: String) {
+        GlobalScope.launch(Dispatchers.IO) {
 
             //1- Creo un objeto de la clase de conexion
             val objConexion = ClaseConexion().cadenaConexion()
 
             //2- creo una variable que contenga un PrepareStatement
-            val updateTicket = objConexion?.prepareStatement("update Ticket set Titulo = ? where UUID_ticket = ?")!!
+            val updateTicket =
+                objConexion?.prepareStatement("update Ticket set Titulo = ? where UUID_ticket = ?")!!
             updateTicket.setString(1, nuevoTitulo)
             updateTicket.setString(2, UUID_Ticket.toString())
             updateTicket.executeUpdate()
 
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 actualicePantalla(UUID_Ticket.toString(), nuevoTitulo)
             }
 
@@ -76,93 +78,74 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
     }
 
 
- override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val vista =
             LayoutInflater.from(parent.context).inflate(R.layout.activity_item_card, parent, false)
 
-       return ViewHolder(vista)
- }
+        return ViewHolder(vista)
+    }
 
     override fun getItemCount() = Datos.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val item = Datos[position]
-        holder.txthombreCard.text = item.Nombres}}
-//        //todo: clic al icono de eliminar
-//        holder.imgBorrar.setOnClickListener {
-//
-//            //Creamos un Alert Dialog
-//            val context = holder.itemView.context
-//
-//            val builder = AlertDialog.Builder(context)
-//            builder.setTitle("Eliminar")
-//            builder.setMessage("¿Desea Borrar su Ticket?")
-//
-//            //Botones
-//            builder.setPositiveButton("Si") { dialog, which ->
-//                eliminarDatos(item.Titulo, position)
-//            }
-//
-//            builder.setNegativeButton("No") { dialog, which ->
-//                dialog.dismiss()
-//            }
-//
-//            val dialog = builder.create()
-//            dialog.show()
-//
-//        }
-//
-//        //Todo: icono de editar
-//        holder.imgBorrar.setOnClickListener {
-//
-//            //Creamos un Alert Dialog
-//            val context = holder.itemView.context
-//
-//            val builder = AlertDialog.Builder(context)
-//            builder.setTitle("Eliminar")
-//            builder.setMessage("¿Quiere borrar el Ticket?")
-//
-//            //Botones
-//            builder.setPositiveButton("Si") { dialog, which ->
-//                eliminarDatos(item.Titulo, position)
-//            }
-//
-//            builder.setNegativeButton("No"){dialog, which ->
-//                dialog.dismiss()
-//            }
-//
-//            val dialog = builder.create()
-//            dialog.show()
-//        }
-//
-//        //Todo: icono de editar
-//        holder.imgEditar.setOnClickListener {
-//
-//            val context = holder.itemView.context
-//
-//            val builder = AlertDialog.Builder(context)
-//            builder.setTitle("Actualizar")
-//            builder.setMessage("¿Quiere actualizar el Ticket?")
-//
-//            //Agregarle un cuadro de texto para
-//            //que el usuario escriba el nuevo nombre
-//            val cuadroTexto = EditText(context)
-//            cuadroTexto.setHint(item.Titulo)
-//            builder.setView(cuadroTexto)
-//
-//            //Botones
-//            builder.setPositiveButton("Actualizar") { dialog, which ->
-//                actualizarDato(cuadroTexto.text.toString(), item.uuid)
-//            }
-//
-//            builder.setNegativeButton("Cancelar"){dialog, which ->
-//                dialog.dismiss()
-//            }
-//
-//            val dialog = builder.create()
-//            dialog.show()
-//        }
+        holder.txthombreCard.text = item.Nombres
+        //todo: clic al icono de eliminar
+        holder.imgBorrar.setOnClickListener {
+
+            //Creamos un Alert Dialog
+            val context = holder.itemView.context
+
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Eliminar")
+            builder.setMessage("¿Desea Borrar su Ticket?")
+
+            //Botones
+            builder.setPositiveButton("Si") { dialog, which ->
+                eliminarDatos(item.Nombres, position)
+            }
+
+            builder.setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+
+        }
+
+
+        //Todo: icono de editar
+        holder.imgEditar.setOnClickListener {
+
+            val context = holder.itemView.context
+
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Actualizar")
+            builder.setMessage("¿Quiere actualizar el Ticket?")
+
+            //Agregarle un cuadro de texto para
+            //que el usuario escriba el nuevo nombre
+
+            val cuadroTexto = EditText(context)
+            cuadroTexto.setHint(item.Nombres)
+            builder.setView(cuadroTexto)
+
+            //Botones
+            builder.setPositiveButton("Actualizar") { dialog, which ->
+                actualizarDato(cuadroTexto.text.toString(), item.UUID_Paciente)
+            }
+
+            builder.setNegativeButton("Cancelar") { dialog, which ->
+                dialog.dismiss()
+            }
+
+            val dialog = builder.create()
+            dialog.show()
+        }
+    }
+}
 
 //        //Todo: Clic a la card completa
 //        holder.itemView.setOnClickListener {
