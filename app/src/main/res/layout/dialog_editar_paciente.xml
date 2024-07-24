@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/cuadroTextoNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre" />
+
+        <EditText
+            android:id="@+id/cuadroTextoHabitacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Número de Habitación" />
+
+        <EditText
+            android:id="@+id/cuadroTextoCama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Número de Cama" />
+
+        <EditText
+            android:id="@+id/cuadroTextoMedicina"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Medicina Asignada" />
+
+        <EditText
+            android:id="@+id/cuadroTextoHora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora de Aplicación de Medicina" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

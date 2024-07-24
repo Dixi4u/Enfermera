@@ -23,7 +23,7 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
     }
 
     fun actualicePantalla(uuid: String, nuevoNombre: String) {
-        val index = Datos.indexOfFirst { it.UUID_Paciente == uuid }
+        val index = Datos.indexOfFirst { it.UUID_Pacientes == uuid }
         Datos[index].Nombres = nuevoNombre
         notifyDataSetChanged()
     }
@@ -56,25 +56,27 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
 
 
     //////////////////////TODO: Editar datos
-    fun actualizarDato(nuevoTitulo: String, UUID_Ticket: String) {
+    fun actualizarDatos(uuid: String, nuevoNombre: String, numHabitacion: String, numCama: String, medicinaAsignada: String, horaAplicacionMed: String) {
         GlobalScope.launch(Dispatchers.IO) {
-
             //1- Creo un objeto de la clase de conexion
             val objConexion = ClaseConexion().cadenaConexion()
 
-            //2- creo una variable que contenga un PrepareStatement
-            val updateTicket =
-                objConexion?.prepareStatement("update Ticket set Titulo = ? where UUID_ticket = ?")!!
-            updateTicket.setString(1, nuevoTitulo)
-            updateTicket.setString(2, UUID_Ticket.toString())
-            updateTicket.executeUpdate()
+            //2- Creo una variable que contenga un PrepareStatement
+            val updateTicket = objConexion?.prepareStatement(
+                "UPDATE Pacientes SET Nombres = ?, Num_Habitacion = ?, Num_Cama = ?, Medicina_Asignada = ?, Hora_Aplicacion_Med = ? WHERE UUID_Paciente = ?"
+            )
+            updateTicket?.setString(1, nuevoNombre)
+            updateTicket?.setString(2, numHabitacion)
+            updateTicket?.setString(3, numCama)
+            updateTicket?.setString(4, medicinaAsignada)
+            updateTicket?.setString(5, horaAplicacionMed)
+            updateTicket?.setString(6, uuid)
+            updateTicket?.executeUpdate()
 
             withContext(Dispatchers.Main) {
-                actualicePantalla(UUID_Ticket.toString(), nuevoTitulo)
+                actualicePantalla(uuid, nuevoNombre)
             }
-
         }
-
     }
 
 
@@ -99,7 +101,7 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
 
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Eliminar")
-            builder.setMessage("¿Desea Borrar su Ticket?")
+            builder.setMessage("¿Desea Borrar su paciente?")
 
             //Botones
             builder.setPositiveButton("Si") { dialog, which ->
@@ -118,26 +120,44 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
 
         //Todo: icono de editar
         holder.imgEditar.setOnClickListener {
-
             val context = holder.itemView.context
 
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Actualizar")
-            builder.setMessage("¿Quiere actualizar el Ticket?")
+            builder.setMessage("¿Quiere actualizar los datos del paciente?")
 
-            //Agregarle un cuadro de texto para
-            //que el usuario escriba el nuevo nombre
+            // Inflar el layout personalizado con múltiples EditText
+            val layoutInflater = LayoutInflater.from(context)
+            val view = layoutInflater.inflate(R.layout.dialog_editar_paciente, null)
+            builder.setView(view)
 
-            val cuadroTexto = EditText(context)
-            cuadroTexto.setHint(item.Nombres)
-            builder.setView(cuadroTexto)
+            // Obtener referencias a los EditText en el layout
+            val cuadroTextoNombre = view.findViewById<EditText>(R.id.cuadroTextoNombre)
+            val cuadroTextoHabitacion = view.findViewById<EditText>(R.id.cuadroTextoHabitacion)
+            val cuadroTextoCama = view.findViewById<EditText>(R.id.cuadroTextoCama)
+            val cuadroTextoMedicina = view.findViewById<EditText>(R.id.cuadroTextoMedicina)
+            val cuadroTextoHora = view.findViewById<EditText>(R.id.cuadroTextoHora)
 
-            //Botones
-            builder.setPositiveButton("Actualizar") { dialog, which ->
-                actualizarDato(cuadroTexto.text.toString(), item.UUID_Paciente)
+            // Configurar los hints con los datos actuales
+            cuadroTextoNombre.setHint(item.Nombres)
+            cuadroTextoHabitacion.setHint(item.Num_Habitacion)
+            cuadroTextoCama.setHint(item.Num_Cama)
+            cuadroTextoMedicina.setHint(item.Medicina_Asignada)
+            cuadroTextoHora.setHint(item.Hora_Aplicacion_Med)
+
+            // Botones del diálogo
+            builder.setPositiveButton("Actualizar") { _, _ ->
+                actualizarDatos(
+                    item.UUID_Pacientes,
+                    cuadroTextoNombre.text.toString(),
+                    cuadroTextoHabitacion.text.toString(),
+                    cuadroTextoCama.text.toString(),
+                    cuadroTextoMedicina.text.toString(),
+                    cuadroTextoHora.text.toString()
+                )
             }
 
-            builder.setNegativeButton("Cancelar") { dialog, which ->
+            builder.setNegativeButton("Cancelar") { dialog, _ ->
                 dialog.dismiss()
             }
 
