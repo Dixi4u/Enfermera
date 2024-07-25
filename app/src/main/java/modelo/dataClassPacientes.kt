@@ -1,7 +1,7 @@
 package modelo
 
 data class dataClassPacientes(
-    val UUID_Paciente: String,
+    val UUID_Pacientes: String,
     var Nombres: String,
     val Apellidos: String,
     val Edad: String,

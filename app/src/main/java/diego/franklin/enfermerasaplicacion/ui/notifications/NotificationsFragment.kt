@@ -51,7 +51,7 @@ class NotificationsFragment : Fragment() {
                 val objConexion = ClaseConexion().cadenaConexion()
                 val statement = objConexion?.createStatement()
 
-                val resultset = statement?.executeQuery("SELECT * FROM Pacientes")!!
+                val resultset = statement?.executeQuery("select * from Pacientes")!!
 
                 while (resultset.next()) {
                     val UUID_Pacientes = resultset.getString("UUID_Pacientes")
