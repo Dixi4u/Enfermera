@@ -63,7 +63,7 @@ class Adaptador(var Datos: List<dataClassPacientes>) : RecyclerView.Adapter<View
 
             //2- Creo una variable que contenga un PrepareStatement
             val updateTicket = objConexion?.prepareStatement(
-                "UPDATE Pacientes SET Nombres = ?, Num_Habitacion = ?, Num_Cama = ?, Medicina_Asignada = ?, Hora_Aplicacion_Med = ? WHERE UUID_Paciente = ?"
+                "UPDATE Pacientes SET Nombres = ?, Num_Habitacion = ?, Num_Cama = ?, Medicina_Asignada = ?, Hora_Aplicacion_Med = ? WHERE UUID_Pacientes = ?"
             )
             updateTicket?.setString(1, nuevoNombre)
             updateTicket?.setString(2, numHabitacion)

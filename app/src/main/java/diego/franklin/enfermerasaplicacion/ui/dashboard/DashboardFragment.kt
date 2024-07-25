@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -40,10 +41,6 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.tvMensaje
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         val txtNombres = root.findViewById<EditText>(R.id.txtNombres)
         val txtApellidos = root.findViewById<EditText>(R.id.txtApellidos)
         val txtEdad = root.findViewById<EditText>(R.id.txtEdad)
@@ -91,8 +88,8 @@ class DashboardFragment : Fragment() {
                     )
                     agregarPaciente?.setString(1, UUID.randomUUID().toString())
                     agregarPaciente?.setString(2, txtNombres.text.toString())
-                    agregarPaciente?.setInt(3, txtApellidos.text.toString().toInt())
-                    agregarPaciente?.setString(4, txtEdad.text.toString())
+                    agregarPaciente?.setString(3, txtApellidos.text.toString())
+                    agregarPaciente?.setInt(4, txtEdad.text.toString().toInt())
                     agregarPaciente?.setString(5, txtEnfermedad.text.toString())
                     agregarPaciente?.setInt(6, txtNum_Habitacion.text.toString().toInt())
                     agregarPaciente?.setInt(7, txtNum_Cama.text.toString().toInt())
@@ -100,10 +97,27 @@ class DashboardFragment : Fragment() {
                     agregarPaciente?.setString(9, txtFechaIngreso.text.toString())
                     agregarPaciente?.setString(10, txtHoraApliocacionMedicamentos.text.toString())
                     agregarPaciente?.executeUpdate()
+
+                    withContext(Dispatchers.Main) {
+
+                        Toast.makeText(requireContext(), "Datos insertados exitosamente", Toast.LENGTH_SHORT).show()
+
+
+                        txtNombres.text.clear()
+                        txtApellidos.text.clear()
+                        txtEdad.text.clear()
+                        txtEnfermedad.text.clear()
+                        txtNum_Habitacion.text.clear()
+                        txtNum_Cama.text.clear()
+                        txtMedicamentosAsignados.text.clear()
+                        txtFechaIngreso.text.clear()
+                        txtHoraApliocacionMedicamentos.text.clear()
+                    }
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                     withContext(Dispatchers.Main) {
-                        // Muestra un mensaje de error al usuario
+                        Toast.makeText(requireContext(), "Error al insertar datos", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
